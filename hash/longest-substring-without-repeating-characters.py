@@ -1,6 +1,6 @@
-import collections
-
-
+# 어려운 문제다.
+# 슬라이딩 윈도우와 투 포인터를 사용해야하는 문제.
+#
 def solve(s: str):
     if len(s) <= 0:
         return 0
@@ -16,6 +16,6 @@ def solve(s: str):
     return result
 
 
-s = "abcabcbb"
+s = "abcabcfb"
 s2 = "tmmzuxt"
-print(solve(s2))
+print(solve(s))
