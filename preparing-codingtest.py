@@ -77,3 +77,29 @@ def number6(n,stages):
 number6(5, [2,1,2,6,2,4,3,3])
 
 number6(4, [4,4,4,4,4])
+
+def solution(dirs):
+    x = 0
+    y = 0
+    
+    ans = set()
+
+    position = {
+        'U' : (-1,0),
+        'D' : (1,0),
+        'R' : (0,1),
+        'L' : (0,-1)
+    }
+
+
+    for char in dirs:
+
+        (dx,dy) = position[char]
+        nx = x + dx
+        ny = y + dy
+
+        if -5 <= nx <= 5 and -5 <= ny <= 5:
+            ans.add(((x, y), (nx, ny)))
+            ans.add(((nx, ny), (x, y)))
+            x,y = nx,ny
+    return len(ans)/2
