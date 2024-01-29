@@ -35,7 +35,6 @@ def number4(answers):
             if answer == pattern[i % len(pattern)]:
                 right_answers[j] += 1
     max_right = max(right_answers)
-    print(max_right)
 
     results = []
     for i, right_answer in enumerate(right_answers):
@@ -69,7 +68,6 @@ def number6(n,stages):
         dic[cur_stage] = count_cur_stage_in_filtered_stages / len(filtered_stages)
     
     sorted_dic = sorted(dic.items(), key=operator.itemgetter(1), reverse=True)
-    print([i[0] for i in sorted_dic])
     return [i[0] for i in sorted_dic]
 
 
@@ -120,4 +118,55 @@ def solution(s):
         return False
 
     return True
+
+def isPair(s):
+    stack = []
+    
+    for c in s:
+        if c == '(' or c == '[' or c == '{':
+            stack.append(c)
+        else:
+            if not stack:
+                return False
+            top = stack.pop()
+            if c == ')' and top != '(':
+                return False
+            elif c == ']' and top != '[': 
+                return False
+            elif c == '}' and top != '{': 
+                 return False
+    if stack:
+        return False
+    return True
+    
+def solution(s):
+    
+    answer = 0
+    
+    for i in range(len(s)):
+        a = s[:i]
+        b = s[i:]
+        
+        if isPair(b+a):
+            answer += 1        
+                
+    return answer
+
+def yosepush(n,k):
+
+    q = [(i+1) for i in range(n)]
+    
+    cur = 1
+    while len(q) != 1:
+
+        item = q.pop(0)
+
+        if cur == k:
+            cur = 0
+        else:
+            cur += 1
+            q.append(item)
+    print(q)
+
+yosepush(5,2)
 
