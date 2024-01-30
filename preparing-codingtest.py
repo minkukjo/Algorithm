@@ -216,7 +216,9 @@ def solution3(n, k, cmd):
     
     return ''.join([i for i in answer])
 
-solution3(8,2,["D 2","C","U 3","C","D 4","C","U 2","Z","Z"])def isPair(s):
+solution3(8,2,["D 2","C","U 3","C","D 4","C","U 2","Z","Z"])
+
+def isPair(s):
     stack = []
     
     for c in s:
