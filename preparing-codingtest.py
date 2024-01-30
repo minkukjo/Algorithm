@@ -1,5 +1,6 @@
-from itertools import permutations
 import operator
+from itertools import permutations
+
 
 def number1(arr):
     arr.sort()
@@ -35,7 +36,7 @@ def number4(answers):
             if answer == pattern[i % len(pattern)]:
                 right_answers[j] += 1
     max_right = max(right_answers)
-    print(max_right)
+
 
     results = []
     for i, right_answer in enumerate(right_answers):
@@ -69,7 +70,7 @@ def number6(n,stages):
         dic[cur_stage] = count_cur_stage_in_filtered_stages / len(filtered_stages)
     
     sorted_dic = sorted(dic.items(), key=operator.itemgetter(1), reverse=True)
-    print([i[0] for i in sorted_dic])
+
     return [i[0] for i in sorted_dic]
 
 
@@ -121,3 +122,98 @@ def solution(s):
 
     return True
 
+# 주식
+def solution(prices):
+    answer = [0 for i in range(len(prices))]
+    stack = []
+    
+    for i in range(len(prices)):
+        while stack and prices[i] < prices[stack[-1]]:
+            j = stack.pop()
+            answer[j] = i-j
+        stack.append(i)
+    
+    while stack:
+        i = stack.pop()
+        answer[i] = len(prices) - i -1
+    
+    return answer
+
+def solution1(board, moves):
+    answer = 0
+    stack = [[] for row in range(len(board))]
+    baguni = []
+    # 2차원 스택 구성 stack
+    x = len(board)
+    y = len(board[0])
+    for j in range(y):
+        for i in range(x-1, -1, -1):
+            if board[i][j] != 0:
+                stack[j].append(board[i][j])
+    
+    for move in moves:
+        i = move -1
+        if stack[i]:
+            doll = stack[i].pop()
+            if baguni and baguni[-1] == doll:
+                baguni.pop()
+                answer += 2
+            else:
+                baguni.append(doll)
+    return answer
+
+def solution3(n, k, cmd):
+    answer = ['O'] * n
+    
+    table = { i:[i-1, i+1] for i in range(n)}
+    stack = []
+    
+    for cm in cmd:
+        cm = cm.split()
+        
+        if cm[0] == 'U':
+            for _ in range(int(cm[1])):
+                k = table[k][0]
+            
+        elif cm[0] == 'D':
+            for _ in range(int(cm[1])):
+                k = table[k][1]
+            
+        elif cm[0] == 'C':
+            print(table[k][0])
+            prev = table[k][0]
+            next = table[k][1]
+            answer[k] = 'X'
+            stack.append((prev,next,k))
+            
+            if next == n:
+                # 맨 마지막이면 위에꺼 선택
+                k = table[k][0]
+            else:
+                # 아니라면 아래꺼 선택
+                k = table[k][1]
+            
+            if prev == -1:
+                ## 제일 꼭대기인 경우 그 다음꺼가 -1이 됨 (꼭대기니까)                
+                table[next][0] = prev
+            elif next == n:
+                ## 다음이 제일 마지막인 경우라면, 이전 꺼의 다음은 현재 위치의 다음이 됨
+                table[prev][1] = next
+            else:
+                table[next][0] = prev
+                table[prev][1] = next
+        elif cm[0] == 'Z':
+            prev, next, cur = stack.pop()
+            answer[cur] = 'O'
+            
+            if prev == -1:
+                table[next][0] = cur
+            elif next == n:
+                table[prev][1] = cur
+            else:
+                table[next][0] = cur
+                table[prev][1] = cur
+    
+    return ''.join([i for i in answer])
+
+solution3(8,2,["D 2","C","U 3","C","D 4","C","U 2","Z","Z"])
