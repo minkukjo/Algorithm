@@ -216,4 +216,54 @@ def solution3(n, k, cmd):
     
     return ''.join([i for i in answer])
 
-solution3(8,2,["D 2","C","U 3","C","D 4","C","U 2","Z","Z"])
+solution3(8,2,["D 2","C","U 3","C","D 4","C","U 2","Z","Z"])def isPair(s):
+    stack = []
+    
+    for c in s:
+        if c == '(' or c == '[' or c == '{':
+            stack.append(c)
+        else:
+            if not stack:
+                return False
+            top = stack.pop()
+            if c == ')' and top != '(':
+                return False
+            elif c == ']' and top != '[': 
+                return False
+            elif c == '}' and top != '{': 
+                 return False
+    if stack:
+        return False
+    return True
+    
+def solution(s):
+    
+    answer = 0
+    
+    for i in range(len(s)):
+        a = s[:i]
+        b = s[i:]
+        
+        if isPair(b+a):
+            answer += 1        
+                
+    return answer
+
+def yosepush(n,k):
+
+    q = [(i+1) for i in range(n)]
+    
+    cur = 1
+    while len(q) != 1:
+
+        item = q.pop(0)
+
+        if cur == k:
+            cur = 0
+        else:
+            cur += 1
+            q.append(item)
+    print(q)
+
+yosepush(5,2)
+
