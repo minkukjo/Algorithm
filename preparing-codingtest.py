@@ -1,3 +1,4 @@
+from collections import Counter, defaultdict
 import operator
 from itertools import permutations
 
@@ -265,7 +266,34 @@ def yosepush(n,k):
         else:
             cur += 1
             q.append(item)
-    print(q)
 
-yosepush(5,2)
+def solution(progresses, speeds):
+    time = 1
 
+    dic = defaultdict(int)
+
+    for i in range((len(progresses))):
+
+        while progresses[i] + (speeds[i] * time) < 100:
+            time += 1
+        dic[time] += 1
+
+    return list(dic.values())
+
+def solution(want, number, discount):
+    answer = 0
+
+    day = 0
+    while day < len(discount):
+        items = discount[day:day+10]
+        c = Counter(items)
+        isIncluding = True
+        for i in range(len(want)):
+            if c[want[i]] != number[i]:
+                isIncluding = False
+                break
+        if isIncluding:
+            answer += 1
+        day += 1
+
+    return answer
