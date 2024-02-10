@@ -24,6 +24,8 @@ def solution(record):
 
 # 베스트 앨범
 from collections import defaultdict
+
+
 def solution(genres, plays):
     answer = []
     
@@ -47,6 +49,8 @@ def solution(genres, plays):
 
 # 신고 결과 받기
 from collections import defaultdict
+
+
 def solution(id_list, report, k):
     answer = []
     
@@ -74,3 +78,30 @@ def solution(id_list, report, k):
 
 # 메뉴 리뉴얼
 
+from collections import defaultdict
+
+
+def solution(id_list, report, k):
+    answer = []
+    
+    report_user = defaultdict(list)
+    reported_count = defaultdict(int)
+    
+    for r in report:
+        splited = r.split()
+        
+        if splited[1] in report_user[splited[0]]:
+            continue
+        report_user[splited[0]].append(splited[1])
+        reported_count[splited[1]] += 1
+    
+    for id in id_list:
+        reported_users = report_user[id]
+        
+        mail = 0
+        for user in reported_users:
+            if reported_count[user] >= k:
+                mail += 1
+        answer.append(mail)
+    
+    return answer
