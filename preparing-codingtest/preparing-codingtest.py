@@ -1,3 +1,4 @@
+from collections import Counter
 import operator
 from itertools import permutations
 
@@ -269,3 +270,6 @@ def yosepush(n,k):
 
 yosepush(5,2)
 
+
+def a():
+    Counter()
