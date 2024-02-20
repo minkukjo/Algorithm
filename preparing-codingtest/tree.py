@@ -58,3 +58,92 @@ def solution(maps):
         return -1
     
     return result1 + result2
+
+# 양과 늑대
+def solution(info, edges):
+    answer = []
+
+    visited = [0] * len(info)
+
+    def dfs(s, w):
+        if s > w:
+            answer.append(s)
+        else:
+            return
+
+        for p, c in edges:
+            if visited[p] and not visited[c]:
+                visited[c] = 1
+                # 1은 늑대인 경우, 0이 양
+                if info[c] == 1:
+                    dfs(s,w+1)
+                else:
+                    # 양
+                    dfs(s+1,w)
+                visited[c] = 0
+
+    visited[0] = 1
+    dfs(1,0)
+
+    return max(answer)
+
+print(solution([0,0,1,1,1,0,1,0,1,0,1,1], [[0,1],[1,2],[1,4],[0,8],[8,7],[9,10],[9,11],[4,3],[6,5],[4,6],[8,9]]))
+
+
+import sys
+sys.setrecursionlimit(10**6)
+
+class Node:
+    def __init__(self, x, key):
+        self.base = x
+        self.key = key
+        self.left = None
+        self.right = None
+
+def solution(nodeinfo):
+    for i, node in enumerate(nodeinfo):
+        node.append(i+1)
+
+    nodeinfo.sort(key= lambda x: -x[1])
+
+    root = Node(nodeinfo[0][0], nodeinfo[0][2])
+    cur = root
+    for base,height,key in nodeinfo[1:]:
+        new = Node(base, key)
+        cur = root
+        while True:
+            if cur.base > base:
+                if cur.left is None:
+                    cur.left = new
+                    break
+                else:
+                    cur = cur.left
+            else:
+                if cur.right is None:
+                    cur.right = new
+                    break
+                else:
+                    cur = cur.right
+    
+    pre = []
+    def preorder(node):
+        if node is None:
+            return
+        pre.append(node.key)
+        preorder(node.left)
+        preorder(node.right)
+    
+    post = []
+    def postorder(node):
+        if node is None:
+            return
+        postorder(node.left)
+        postorder(node.right)
+        post.append(node.key)
+    
+    preorder(root)
+    postorder(root)
+    answer = []
+    answer.append(pre)
+    answer.append(post)
+    return answer
