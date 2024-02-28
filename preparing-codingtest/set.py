@@ -25,3 +25,20 @@ def solution(n, words):
         else:
             dic[word] = 1
             last_char = word[-1]
+
+# 섬 연결하기
+            
+def solution(n, costs):
+    answer = 0
+    costs.sort(key=lambda x:x[2])
+    s = set(costs[0][0])
+
+    while len(s) != n:
+        for cost in costs:
+            if cost[0] in s and cost[1] in s:
+                continue
+            elif cost[0] in s or cost[1] in s:
+                s.add([cost[0], cost[1]])
+                answer += cost[2]
+                break
+    return answer
