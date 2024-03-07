@@ -16,3 +16,27 @@ def solution(k, dungeons):
     dfs(k, dungeons, 0)
 
     return max(answer)
+
+# N-퀸
+def solution(n):
+
+
+    arr = [0] *n
+    def isExistQueen(position):
+        for i in range(position):
+            if arr[position] == arr[i] or abs(arr[position]-arr[i]) == abs(position - i):
+                return False
+        return True
+
+    def dfs(cur):
+        answer = 0
+        if cur == n:
+            return 1
+        else:
+            for i in range(n):
+                arr[cur] = i
+                if isExistQueen(cur):
+                    answer += dfs(cur+1)
+        return answer
+
+    return dfs(0)
