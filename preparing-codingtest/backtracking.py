@@ -178,3 +178,37 @@ def solution(n, computers):
 
     return answer
 
+# 배달
+
+import heapq
+
+def solution(N, road, K):
+    answer = 0
+
+    dist = [float('inf')] *(N+1)
+    dist[1] = 0
+    village = [[] for i in range(N)]
+
+    for i in range(N):
+        a,b,w = road[i]
+        village[a].append((b, w))
+        village[b].append((a, w))
+    
+    def dijkstra(dist):
+        heap =[]
+        heapq.heappush(heap, (0,1))
+
+        while heap:
+            weight, node = heapq.heappop(heap)
+            for connected_node, connected_weight in village[node]:
+                if connected_weight + weight < dist[connected_node]:
+                    dist[connected_node] = connected_weight + weight
+                    heapq.heappush(heap, (connected_weight + weight, connected_node))
+
+    answer = []
+
+    for i in range(N):
+        if dist[i] <= K:
+            answer.append(i)
+
+    return len(answer)
