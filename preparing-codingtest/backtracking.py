@@ -1,4 +1,6 @@
 # 피로도
+
+
 def solution(k, dungeons):
     answer = []
     visited = [0] * len(dungeons)
@@ -87,3 +89,92 @@ def solution(n, info):
         return [-1]
 
     return answer
+
+# 외벽점검
+from itertools import permutations
+
+def solution(n, weak, dist):
+    length = len(weak)
+    for i in range(length):
+        weak.append(weak[i] + n)
+
+    answer = float('inf')
+
+    for i in range(length):
+        for j in list(permutations(dist, len(dist))):
+            used_friend = 1
+            cur = weak[i] + j[used_friend-1]
+            for k in range(i, i+length):
+                if cur < weak[k]:
+                    used_friend += 1
+                    if used_friend > len(dist):
+                        break
+                    cur = weak[k] + j[used_friend-1]
+            answer = min(answer, used_friend)
+    if answer > len(dist):
+        return -1
+
+    return answer
+
+# 게임 맵 최단 거리
+from collections import deque
+
+def solution(maps):
+    start = (0,0,0)
+    goal = (len(maps)-1, len(maps[0])-1)
+
+    q = deque()
+    q.append(start)
+
+    visited = []
+
+    answer = float('inf')
+
+    dist = [(0,1), (1,0), (-1,0), (0,-1)]
+    while q:
+        x,y, step = q.pop()
+
+        if (x,y) == goal:
+            answer = min(answer, step)
+
+        for dx,dy in dist:
+            nx = x+dx
+            ny = y+dy
+
+            if 0 <= nx < len(maps) and 0 <= ny < len(maps[0]) and (nx,ny) not in visited:
+                visited.append((nx,ny))
+                q.append((nx,ny, step+1))
+
+    if answer == float('inf'):
+        return -1
+
+    return answer
+
+# 네트워크
+
+def solution(n, computers):
+    answer = 0
+
+    adj = [[] for i in range (n)]
+
+    for i, computer in enumerate(computers):
+        for j in range(n):
+             if i != j and computer[j] == 1:
+                 adj[i].append(j)
+
+    visited= [0] * n
+
+    def dfs(index):
+        visited[index] = 1
+
+        for target_index in adj[index]:
+            if visited[target_index] == 0:
+                dfs(target_index)
+    
+    for i in range(n):
+        if visited[i] == 0:
+            dfs(i)
+            answer += 1
+
+    return answer
+
