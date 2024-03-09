@@ -40,13 +40,14 @@ def solution(n):
     return dfs(0)
 
 # 양궁 대회
-
+answer = []
+score = 0
 def solution(n, info):
-    answer = []
+    
     ryan = [0 for i in range(11)]
-    max_score = [0]
-
+    
     def dfs(arrow, ryan, index):
+        global answer, score
         if arrow == 0:
             ryan_score = 0
             apeach_score = 0
@@ -61,26 +62,28 @@ def solution(n, info):
             if ryan_score > apeach_score:
                 dif = ryan_score - apeach_score
 
-                if dif > max_score[0]:
-                    max_score[0] = dif
+                if dif > score:
+                    score = dif
                     answer = list(ryan)
-                elif dif == max_score[0]:
+                elif dif == score:
                     for i in range(11):
-                        if ryan[-1] > answer[-1]:
+                        if ryan[-i] > answer[-i]:
                             answer = list(ryan)
                             return
-                        else:
+                        elif ryan[-i] < answer[-i]:
                             return
         if index == 11:
             return
-        for i in range(index, n+1):
+        
+        for i in range(info[index]+2):
             if i <= n:
                 ryan[index] = i
                 dfs(arrow-i,ryan, index+1)
                 ryan[index] = 0
     
     dfs(n, ryan, 0)
+    
+    if(len(answer) == 0):
+        return [-1]
 
     return answer
-
-print(solution(5, [2,1,1,1,0,0,0,0,0,0,0]))
